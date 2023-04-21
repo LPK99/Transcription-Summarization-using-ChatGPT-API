@@ -1,7 +1,7 @@
 from prompt_function import transcribe, short_summarize, long_summarize, bulletpoints_summarize
 import gradio as gr
 
-with gr.Blocks() as demo:
+with gr.Blocks() as ui:
     with gr.Tab("Batch"):
         with gr.Column(scale=1):
             with gr.Row():
@@ -39,5 +39,5 @@ with gr.Blocks() as demo:
     long_summarize_button_rt.click(long_summarize, inputs=audio_realtime_input, outputs=text_output_rt)
     bulletpoints_summarize_button_rt.click(bulletpoints_summarize, inputs=audio_realtime_input, outputs=text_output_rt)
 
-demo.launch()
+ui.launch()
 
