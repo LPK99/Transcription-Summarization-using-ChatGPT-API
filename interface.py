@@ -1,7 +1,7 @@
 from prompt_function import transcribe, short_summarize, long_summarize, bulletpoints_summarize
 import gradio as gr
 
-#The user interface of the gradio web app
+#The user interface of the gradio web app-
 with gr.Blocks() as ui:
     with gr.Tab("Batch"):
         with gr.Column(scale=1):
