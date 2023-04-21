@@ -1,6 +1,7 @@
 import whisper
 import openai
 import api_key
+import os
 
 #take the prompt and text content as parameter
 #call the chatgpt api and return the response
@@ -15,12 +16,13 @@ def request_gpt(prompt, text):
     return response["choices"][0]["message"]["content"]
 #transcribe the file into text
 def transcribe(filename):
-    if type(filename) == str: #take the text if the parameter is already a text
-        return filename
-    else:
+    #take the text if the parameter is already a text
+    if os.path.isdir(filename):
         model = whisper.load_model("base")
         result = model.transcribe(filename)
         return(result["text"])
+    else:
+        return filename
 
 #declare the prompt and call the request_gpt function
 
