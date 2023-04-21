@@ -1,6 +1,18 @@
 import whisper
 import openai
-import gradio 
+import gradio as gr
+import numpy as np
+
+
+
+def transcribe(filename):
+    model = whisper.load_model("base")
+    #print(filename)
+    #audio = whisper.load_audio(filename)
+    #convert_to_array = np.array(filename, dtype=np.int16)
+    #print(convert_to_array)
+    result = model.transcribe(filename[1])
+    return(result["text"])
 
 def short_summarize(result):
     response = openai.ChatCompletion.create(
@@ -32,4 +44,14 @@ def bulletpoints_summarize(result):
     )
     return response["choices"][0]["message"]["content"]
 
+with gr.Blocks() as demo:
+    with gr.Row():
+        with gr.Column(scale=1, min_width=600):
+            audio_input = gr.Audio()
+            transcribe_button = gr.Button("Submit")
+            text_output = gr.Textbox()
+
+    transcribe_button.click(transcribe, inputs=audio_input, outputs=text_output)
+
+demo.launch()
 
