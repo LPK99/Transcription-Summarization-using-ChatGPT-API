@@ -3,28 +3,18 @@ import openai
 import gradio as gr
 import api_key
 
-openai.api_key = api_key.OPEN_AI_API_KEY
+
 
 def request_gpt(prompt, text):
-    if type(text) == str:
-        response = openai.ChatCompletion.create(
+    openai.api_key = api_key.OPEN_AI_API_KEY
+    content = transcribe(text)
+    print(content)
+    response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": text},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
-        content = transcribe(text)
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": content},
-            ]
-        )
-        return response["choices"][0]["message"]["content"]
+        messages=[{"role": "system", "content": prompt}, {"role": "user", "content": content}]
+    )
+    print(response["choices"][0]["message"]["content"])
+    return response["choices"][0]["message"]["content"]
 
 def transcribe(filename):
     model = whisper.load_model("base")
@@ -32,13 +22,15 @@ def transcribe(filename):
     return(result["text"])
 
 def short_summarize(result):
-    request_gpt("You are a professor . Summarize to all inputs in 50 concise words or less", result)
+    return request_gpt('You are a professor . Summarize to all inputs in 50 concise words or less', result)
 
 def long_summarize(result):
-    request_gpt("You are a professor .Summarize to all inputs in a short and concise paragraph", result)
+    prompt = "You are a professor .Summarize to all inputs in a short and concise paragraph"
+    return request_gpt(prompt, result)
 
 def bulletpoints_summarize(result):
-    request_gpt("You are a professor . Summarize to all inputs in a short and concise bullet points", result)
+    prompt = "You are a professor .Summarize to all inputs in a short and concise paragraph"
+    return request_gpt(prompt, result)
 
 
 with gr.Blocks() as demo:
@@ -46,7 +38,6 @@ with gr.Blocks() as demo:
         with gr.Column(scale=1):
             with gr.Row():
                 audio_input = gr.Audio(type="filepath")
-                text_input = gr.Textbox()
                 with gr.Column(scale=1, min_width=500):
                     transcribe_button = gr.Button("Transcribe")
                     short_summarize_button = gr.Button("Short Audio Summary")
