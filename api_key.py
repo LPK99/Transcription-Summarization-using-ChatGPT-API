@@ -1,1 +1,1 @@
-OPEN_AI_API_KEY = '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'
+OPEN_AI_API_KEY = 'your api'
