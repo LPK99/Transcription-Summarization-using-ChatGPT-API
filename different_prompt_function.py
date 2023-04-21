@@ -11,16 +11,6 @@ def transcribe(filename):
     return(result["text"])
 
 def short_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor . Summarize to all inputs in 50 concise words or less"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
         content = transcribe(result)
         response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
@@ -32,16 +22,6 @@ def short_summarize(result):
         return response["choices"][0]["message"]["content"]
 
 def long_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise paragraph"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
         content = transcribe(result)
         response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
@@ -53,16 +33,6 @@ def long_summarize(result):
         return response["choices"][0]["message"]["content"]
 
 def bulletpoints_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise bullet points"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
         content = transcribe(result)
         response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
@@ -79,7 +49,6 @@ with gr.Blocks() as demo:
         with gr.Column(scale=1):
             with gr.Row():
                 audio_input = gr.Audio(type="filepath")
-                text_input = gr.Textbox()
                 with gr.Column(scale=1, min_width=500):
                     transcribe_button = gr.Button("Transcribe")
                     short_summarize_button = gr.Button("Short Audio Summary")
