@@ -5,7 +5,7 @@ import api_key
 
 openai.api_key = api_key.OPEN_AI_API_KEY
 
-def request_gpt(self, prompt, text):
+def request_gpt(prompt, text):
     if type(text) == str:
         response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
@@ -32,67 +32,13 @@ def transcribe(filename):
     return(result["text"])
 
 def short_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor . Summarize to all inputs in 50 concise words or less"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
-        content = transcribe(result)
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
-            messages=[
-                {"role": "system", "content": "You are a professor . Summarize to all inputs in 50 concise words or less"},
-                {"role": "user", "content": content},
-            ]
-        )
-        return response["choices"][0]["message"]["content"]
+    request_gpt("You are a professor . Summarize to all inputs in 50 concise words or less", result)
 
 def long_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise paragraph"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
-        content = transcribe(result)
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
-            messages=[
-                {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise paragraph"},
-                {"role": "user", "content": content},
-            ]
-        )
-        return response["choices"][0]["message"]["content"]
+    request_gpt("You are a professor .Summarize to all inputs in a short and concise paragraph", result)
 
 def bulletpoints_summarize(result):
-    if type(result) == str:
-        response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise bullet points"},
-            {"role": "user", "content": result},
-        ]
-        )
-        return response["choices"][0]["message"]["content"]
-    else:
-        content = transcribe(result)
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
-            messages=[
-                {"role": "system", "content": "You are a professor .Summarize to all inputs in a short and concise bullet points"},
-                {"role": "user", "content": content},
-            ]
-        )
-        return response["choices"][0]["message"]["content"]
+    request_gpt("You are a professor .Summarize to all inputs in a short and concise bullet points", result)
 
 
 with gr.Blocks() as demo:
