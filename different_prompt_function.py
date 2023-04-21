@@ -38,7 +38,7 @@ def long_summarize(result):
     request_gpt("You are a professor .Summarize to all inputs in a short and concise paragraph", result)
 
 def bulletpoints_summarize(result):
-    request_gpt("You are a professor .Summarize to all inputs in a short and concise bullet points", result)
+    request_gpt("You are a professor . Summarize to all inputs in a short and concise bullet points", result)
 
 
 with gr.Blocks() as demo:
@@ -66,8 +66,8 @@ with gr.Blocks() as demo:
                     long_summarize_button_rt = gr.Button("Long Audio Summary")
                     bulletpoints_summarize_button_rt = gr.Button("Bullet Points Summaryyyy")
         with gr.Column(scale=1):
-            text_output = gr.Textbox("Summary")
-            transcription_output = gr.Textbox("Transcript")
+            text_output_rt = gr.Textbox("Summary")
+            transcription_output_rt = gr.Textbox("Transcript")
             #exit_button = gr.Button("EXIT UI")    
 
     transcribe_button.click(transcribe, inputs=audio_input, outputs=transcription_output)
@@ -75,10 +75,10 @@ with gr.Blocks() as demo:
     long_summarize_button.click(long_summarize, inputs=audio_input, outputs=text_output)
     bulletpoints_summarize_button.click(bulletpoints_summarize, inputs=audio_input, outputs=text_output)
 
-    transcribe_button_rt.click(transcribe, inputs=audio_realtime_input, outputs=transcription_output)
-    short_summarize_button_rt.click(short_summarize, inputs=audio_realtime_input, outputs=text_output)
-    long_summarize_button_rt.click(long_summarize, inputs=audio_realtime_input, outputs=text_output)
-    bulletpoints_summarize_button_rt.click(bulletpoints_summarize, inputs=audio_realtime_input, outputs=text_output)
+    transcribe_button_rt.click(transcribe, inputs=audio_realtime_input, outputs=transcription_output_rt)
+    short_summarize_button_rt.click(short_summarize, inputs=audio_realtime_input, outputs=text_output_rt)
+    long_summarize_button_rt.click(long_summarize, inputs=audio_realtime_input, outputs=text_output_rt)
+    bulletpoints_summarize_button_rt.click(bulletpoints_summarize, inputs=audio_realtime_input, outputs=text_output_rt)
 
 demo.launch()
 
