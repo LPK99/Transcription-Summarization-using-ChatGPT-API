@@ -5,6 +5,27 @@ import api_key
 
 openai.api_key = api_key.OPEN_AI_API_KEY
 
+def request_gpt(self, prompt, text):
+    if type(text) == str:
+        response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo',
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": text},
+        ]
+        )
+        return response["choices"][0]["message"]["content"]
+    else:
+        content = transcribe(text)
+        response = openai.ChatCompletion.create(
+            model='gpt-3.5-turbo',
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": content},
+            ]
+        )
+        return response["choices"][0]["message"]["content"]
+
 def transcribe(filename):
     model = whisper.load_model("base")
     result = model.transcribe(filename)
