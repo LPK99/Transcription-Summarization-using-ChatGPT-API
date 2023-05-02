@@ -1,8 +1,9 @@
-from prompt_function import transcribe, short_summarize, long_summarize, bulletpoints_summarize
+from prompt_function import transcribe, short_summarize, long_summarize, bulletpoints_summarize, getAPIkey
 import gradio as gr
 
 #The user interface of the gradio web app-
 with gr.Blocks() as ui:
+    api_key_input = gr.Textbox(placeholder="Enter your API key here")
     with gr.Tab("Batch"):
         with gr.Column(scale=1):
             with gr.Row():
@@ -40,6 +41,7 @@ with gr.Blocks() as ui:
         with gr.Column(scale=1):
             text_output_textbox = gr.Text("Summary")
         
+    api_key_input.change(getAPIkey, inputs=api_key_input)
 
     transcribe_button.click(transcribe, inputs=audio_input, outputs=transcription_output)
     short_summarize_button.click(short_summarize, inputs=audio_input, outputs=text_output)
